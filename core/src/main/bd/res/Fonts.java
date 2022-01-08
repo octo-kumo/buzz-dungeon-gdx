@@ -12,6 +12,7 @@ public class Fonts {
 
     public static void init() {
         font = new BitmapFont(Gdx.files.internal("fonts/16.fnt"));
+        font.getData().markupEnabled = true;
         font32 = new BitmapFont(Gdx.files.internal("fonts/alagard32.fnt"));
         font32bold = new BitmapFont(Gdx.files.internal("fonts/alagard32bold.fnt"));
         font32boldoutline = new BitmapFont(Gdx.files.internal("fonts/alagard32boldoutline.fnt"));

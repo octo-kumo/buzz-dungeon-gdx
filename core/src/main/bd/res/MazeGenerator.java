@@ -40,6 +40,14 @@ public class MazeGenerator {
         layer = (TiledMapTileLayer) mazeScreen.tiledMap.getLayers().get("maze");
         floor = (TiledMapTileLayer) mazeScreen.tiledMap.getLayers().get("floor_props");
         spike = mazeScreen.tiledMap.getTileSets().getTile(82);
+
+        final PolygonShape sb = new PolygonShape();
+        sb.setAsBox(0.3f, 0.3f, new Vector2(x - .5f, y - .5f), 0);
+        mazeScreen.ending.createFixture(new FixtureDef() {{
+            shape = sb;
+            isSensor = true;
+        }});
+
         generateMaze(0, 0);
         display();
     }

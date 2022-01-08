@@ -143,7 +143,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        update(1 / 60f);
+        update(delta);
         ScreenUtils.clear(0, 0, 0, 1);
         camera.position.set(player.body.getPosition(), 0);
         camera.update();
@@ -163,6 +163,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void resize(int width, int height) {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
+        ui.getViewport().setScreenSize(width, height);
     }
 
     @Override

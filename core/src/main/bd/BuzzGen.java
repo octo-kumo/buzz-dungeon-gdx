@@ -15,11 +15,19 @@ public class BuzzGen {
             "action items", "adoption", "alignments", "applications", "architectures", "bandwidth", "benefits", "best practices", "catalysts for change", "channels", "clouds", "collaboration and idea-sharing", "communities", "content", "convergence", "core competencies", "customer service", "data", "deliverables", "e-business", "e-commerce", "e-markets", "e-tailers", "e-services", "experiences", "expertise", "functionalities", "fungibility", "growth strategies", "human capital", "ideas", "imperatives", "infomediaries", "information", "infrastructures", "initiatives", "innovation", "intellectual capital", "interfaces", "internal or organic sources", "leadership", "leadership skills", "manufactured products", "markets", "materials", "meta-services", "methodologies", "methods of empowerment", "metrics", "mindshare", "models", "networks", "niches", "niche markets", "nosql", "opportunities", "\"outside the box\" thinking", "outsourcing", "paradigms", "partnerships", "platforms", "portals", "potentialities", "rocess improvements", "processes", "products", "quality vectors", "relationships", "resources", "results", "ROI", "scenarios", "schemas", "scrums", "services", "solutions", "sources", "sprints", "strategic theme areas", "storage", "supply chains", "synergy", "systems", "technologies", "technology", "testing procedures", "total linkage", "users", "value", "vortals", "web-readiness", "web services", "wins", "virtualization",
     };
 
+    private static final String[] clr = new String[]{
+            "WHITE", "GRAY", "BLUE", "NAVY", "ROYAL", "SLATE", "SKY", "CYAN", "TEAL", "GREEN", "CHARTREUSE", "LIME", "FOREST", "OLIVE", "YELLOW", "GOLD", "GOLDENROD", "ORANGE", "BROWN", "TAN", "FIREBRICK", "RED", "SCARLET", "CORAL", "SALMON", "PINK", "MAGENTA", "PURPLE", "VIOLET", "MAROON"
+    };
+
+    public static String color() {
+        return "[" + clr[MathUtils.random(clr.length - 1)] + "]";
+    }
+
     public static String generate() {
-        return adv[MathUtils.random(adv.length - 1)] + " " +
-                ver[MathUtils.random(ver.length - 1)] + " " +
-                adj[MathUtils.random(adj.length - 1)] + " " +
-                non[MathUtils.random(non.length - 1)];
+        return color() + adv[MathUtils.random(adv.length - 1)] + " " +
+                color() + ver[MathUtils.random(ver.length - 1)] + " " +
+                color() + adj[MathUtils.random(adj.length - 1)] + " " +
+                color() + non[MathUtils.random(non.length - 1)] + "[WHITE]";
     }
 
 }

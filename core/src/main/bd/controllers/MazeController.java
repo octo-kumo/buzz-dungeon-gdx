@@ -15,6 +15,9 @@ public class MazeController implements ContactListener {
         if(check(contact.getFixtureA(),contact.getFixtureB(), mazeScreen.spikes,mazeScreen.player.body)){
             mazeScreen.died();
         }
+        if(check(contact.getFixtureA(),contact.getFixtureB(), mazeScreen.ending,mazeScreen.player.body)){
+            mazeScreen.won();
+        }
     }
 
     @Override

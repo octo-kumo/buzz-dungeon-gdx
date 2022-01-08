@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import main.bd.res.Fonts;
-import main.bd.screens.MazeScreen;
+import main.bd.screens.MainMenuScreen;
 
 public class BuzzDungeon extends Game {
     public SpriteBatch batch;
@@ -16,8 +16,8 @@ public class BuzzDungeon extends Game {
         Fonts.init();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        this.setScreen(new MazeScreen(this,""));
-//        this.setScreen(new MainMenuScreen(this));
+//        this.setScreen(new MazeScreen(this,""));
+        this.setScreen(new MainMenuScreen(this));
     }
 
     @Override

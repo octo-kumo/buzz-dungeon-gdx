@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import main.bd.BuzzDungeon;
+import main.bd.BuzzGen;
 import main.bd.controllers.MazeController;
 import main.bd.entities.GamePlayer;
 import main.bd.res.Fonts;
@@ -97,9 +98,11 @@ public class MazeScreen implements Screen, InputProcessor {
         player = new GamePlayer(atlas, this);
         stage.addActor(player);
         StringBuilder f = new StringBuilder();
-        for (String s : messages) f.append(s).append('\n');
+        for (int j = Math.max(0, messages.size() - 5), messagesSize = messages.size(); j < messagesSize; j++) {
+            String s = messages.get(j);
+            f.append(s).append('\n');
+        }
         Label.LabelStyle style = new Label.LabelStyle(Fonts.font, Color.WHITE);
-        style.font.getData().markupEnabled = true;
         l = new Label(f.toString(), style);
         l.setFontScale(1.5f);
         l.setPosition(100, 60);
@@ -147,7 +150,10 @@ public class MazeScreen implements Screen, InputProcessor {
         if (messages.size() <= i && et > (i + 1) && i < to_add.size()) {
             messages.add(to_add.get(i));
             StringBuilder f = new StringBuilder();
-            for (String s : messages) f.append(s).append('\n');
+            for (int j = Math.max(0, messages.size() - 5), messagesSize = messages.size(); j < messagesSize; j++) {
+                String s = messages.get(j);
+                f.append(s).append('\n');
+            }
             l.setText(f.toString());
             i++;
         }
@@ -155,7 +161,7 @@ public class MazeScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        update(1 / 60f);
+        update(delta);
         ScreenUtils.clear(0, 0, 0, 1);
         camera.position.set(player.body.getPosition(), 0);
         camera.update();
@@ -174,6 +180,7 @@ public class MazeScreen implements Screen, InputProcessor {
     public void resize(int width, int height) {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
+        ui.getViewport().setScreenSize(width, height);
     }
 
     @Override
@@ -243,5 +250,13 @@ public class MazeScreen implements Screen, InputProcessor {
         camera.zoom = camera.zoom * (1 + amountY * 0.1f);
         camera.zoom = Math.max(Math.min(camera.zoom, 1 / 50f), 1 / 120f);
         return false;
+    }
+
+    public void won() {
+        messages.add("");
+        messages.add(BuzzDungeon.name + " was slightly annoyed by the maze, but finished it nevertheless.\n");
+        StringBuilder f = new StringBuilder();
+        for (String s : messages) f.append(s).append('\n');
+        game.setScreen(new TransitionScreen(this, new InputScreen(game, f + "\nHe arrives in the world of \"" + BuzzGen.generate() + "\""), game).setDuration(1));
     }
 }

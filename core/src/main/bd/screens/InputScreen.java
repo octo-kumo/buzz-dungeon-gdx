@@ -25,7 +25,6 @@ public class InputScreen implements Screen {
 
     public InputScreen(BuzzDungeon game, String current) {
         this.game = game;
-        current = current + "\nHe arrives in the world of \"" + BuzzGen.generate() + "\"";
         this.current = current;
         stage = new Stage();
         bg = new Texture(Gdx.files.internal("bg.jpeg"));
