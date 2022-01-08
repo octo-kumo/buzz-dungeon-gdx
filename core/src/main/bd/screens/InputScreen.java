@@ -2,29 +2,43 @@ package main.bd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import main.bd.BuzzDungeon;
+import main.bd.BuzzGen;
 import main.bd.res.Fonts;
 
-public class MainMenuScreen implements Screen {
-
+public class InputScreen implements Screen {
     final BuzzDungeon game;
-
-    OrthographicCamera camera;
+    private final Label l;
+    private String current;
+    private final Stage stage;
 
     Texture bg;
 
     float elapsed = 0;
 
-    public MainMenuScreen(final BuzzDungeon game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 1920, 1080);
 
+    public InputScreen(BuzzDungeon game, String current) {
+        this.game = game;
+        current = current + "\nHe arrives in the world of \"" + BuzzGen.generate() + "\"\n";
+        this.current = current;
+        stage = new Stage();
         bg = new Texture(Gdx.files.internal("bg.jpeg"));
+
+        l = new Label(current, new Label.LabelStyle(Fonts.font, Color.WHITE));
+        l.setWrap(true);
+        l.setWidth(Gdx.graphics.getWidth() - 400);
+        l.setFontScale(1.5f);
+        l.setPosition(200, 100);
+        l.setAlignment(Align.bottomLeft);
+
+        stage.addActor(l);
     }
 
     @Override
@@ -37,15 +51,8 @@ public class MainMenuScreen implements Screen {
         elapsed += delta;
         ScreenUtils.clear(0, 0, 0, 0);
 
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.batch.draw(bg, 0, 0);
-        Fonts.font64title.draw(game.batch, "Welcome to BuzzDungeon!", 200, 300);
-        Fonts.font32boldoutline.draw(game.batch, "Tap anywhere to begin!", 200, 200);
-
-        game.batch.end();
+        stage.act(delta);
+        stage.draw();
 
         if (elapsed < 1) {
             Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
@@ -63,7 +70,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().setScreenSize(width, height);
     }
 
     @Override

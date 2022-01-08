@@ -78,7 +78,7 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  com.badlogic.gdx.physics.box2d.Body.jniCreateFixture(JJF)J+0
 j  com.badlogic.gdx.physics.box2d.Body.createFixture(Lcom/badlogic/gdx/physics/box2d/Shape;F)Lcom/badlogic/gdx/physics/box2d/Fixture;+10
 j  main.bd.entities.Player.<init>(Lcom/badlogic/gdx/graphics/g2d/TextureAtlas;Lcom/badlogic/gdx/physics/box2d/World;)V+130
-j  main.bd.screens.GameScreen.<init>(Lmain/bd/BuzzDungeon;)V+118
+j  main.bd.screens.TutorialScreen.<init>(Lmain/bd/BuzzDungeon;)V+118
 j  main.bd.BuzzDungeon.create()V+31
 j  com.badlogic.gdx.backends.lwjgl.LwjglApplication.mainLoop()V+29
 j  com.badlogic.gdx.backends.lwjgl.LwjglApplication$1.run()V+27

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="32">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="37">
  <tileset firstgid="1" source="../tilesets/dungeon.xml"/>
  <tileset firstgid="113" source="../tilesets/inputs.xml"/>
  <tileset firstgid="929" source="../tilesets/door.xml"/>
@@ -26,12 +26,12 @@
  <layer id="2" name="collisions" width="16" height="16">
   <data encoding="csv">
 50,75,75,75,75,75,75,75,75,75,75,75,75,75,53,0,
-57,74,74,74,74,74,74,74,74,74,74,74,74,74,60,0,
-57,0,0,0,0,0,0,0,0,0,0,0,0,0,57,0,
-57,0,0,0,0,0,0,0,0,0,0,0,0,0,57,0,
-57,0,0,0,94,95,0,0,0,0,0,0,0,0,57,0,
-57,7,7,100,0,0,103,7,7,2,2,0,0,2,67,0,
-57,12,26,11,930,0,9,26,12,9,9,0,0,9,9,0,
+57,74,25,74,74,24,23,16,17,74,74,18,74,40,60,0,
+57,0,0,0,0,0,82,0,0,0,0,0,0,47,57,0,
+57,0,0,0,0,0,0,0,0,82,0,0,0,0,57,0,
+57,0,0,82,0,0,0,0,82,0,0,0,0,0,57,0,
+57,0,0,0,0,0,0,0,0,0,0,0,0,2,67,0,
+57,12,26,11,930,0,9,26,12,69,9,0,0,9,9,0,
 57,0,0,0,0,0,88,0,0,58,0,0,0,0,0,0,
 57,0,0,0,0,0,0,0,0,58,0,0,0,0,0,0,
 57,0,0,0,0,0,0,0,0,58,0,0,0,0,0,0,
@@ -57,7 +57,36 @@
    <ellipse/>
   </object>
   <object id="21" name="door" x="64" y="108" width="32" height="3.45455"/>
-  <object id="31" name="door_button" type="sensor" x="96" y="112" width="16" height="16"/>
+  <object id="31" name="door_button" x="99.7273" y="114.818" width="8.45455" height="8.54545">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="32" name="next_level" x="208" y="224" width="16" height="16">
+   <properties>
+    <property name="sensor" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="33" x="99.8182" y="35.8182" width="8.54545" height="8.72727">
+   <properties>
+    <property name="kill" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="34" x="148" y="50.7273" width="8.54545" height="8.90909">
+   <properties>
+    <property name="kill" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="35" x="132.182" y="68" width="8" height="8.36364">
+   <properties>
+    <property name="kill" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="36" x="51.4545" y="67.4545" width="8.90909" height="8.54545">
+   <properties>
+    <property name="kill" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer id="7" name="above" width="16" height="16">
   <data encoding="csv">
@@ -65,8 +94,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,94,95,0,0,0,0,0,0,0,0,0,0,
+0,7,7,100,0,0,103,7,7,2,75,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,57,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,57,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,57,0,

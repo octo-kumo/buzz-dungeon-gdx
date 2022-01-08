@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.objects.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import main.bd.screens.GameScreen;
 
 import java.util.HashMap;
 
@@ -19,6 +18,13 @@ public class MapBodyBuilder {
         ppt = pixels;
         HashMap<String, Body> mappedObjects = new HashMap<String, Body>();
         MapObjects objects = map.getLayers().get("box2d").getObjects();
+
+
+        BodyDef kd = new BodyDef();
+        kd.type = BodyDef.BodyType.StaticBody;
+
+        Body kill = world.createBody(kd);
+        mappedObjects.put("killers", kill);
 
         for (MapObject object : objects) {
 
@@ -42,11 +48,19 @@ public class MapBodyBuilder {
 
             BodyDef bd = new BodyDef();
             bd.type = BodyDef.BodyType.StaticBody;
-            Body body = world.createBody(bd);
+
             FixtureDef fd = new FixtureDef();
             fd.shape = shape;
             fd.density = 1;
-            if (object.getProperties().get("type") == "sensor") fd.isSensor = true;
+            if (object.getProperties() != null && object.getProperties().get("sensor") != null && (Boolean) (object.getProperties().get("sensor")))
+                fd.isSensor = true;
+
+            Body body;
+            if (object.getProperties() != null && object.getProperties().get("kill") != null && (Boolean) (object.getProperties().get("kill"))) {
+                body = kill;
+                fd.isSensor = true;
+            } else body = world.createBody(bd);
+
             body.createFixture(fd);
             if (object.getName() != null) mappedObjects.put(object.getName(), body);
 
@@ -65,6 +79,22 @@ public class MapBodyBuilder {
                 size,
                 0.0f);
         return polygon;
+    }
+
+    public static Body makeCircle(float x, float y, float r, World world) {
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(r);
+        BodyDef bd = new BodyDef();
+        bd.type = BodyDef.BodyType.DynamicBody;
+        bd.position.set(x, y);
+        bd.linearDamping = 5f;
+        bd.angularDamping = 0.5f;
+        FixtureDef fd = new FixtureDef();
+        fd.shape = circleShape;
+        fd.density = 1;
+        Body body = world.createBody(bd);
+        body.createFixture(fd);
+        return body;
     }
 
     private static CircleShape getCircle(CircleMapObject circleObject) {

@@ -13,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import main.bd.controllers.KeyboardController;
-import main.bd.screens.TutorialScreen;
+import main.bd.screens.GameScreen;
 
-public class Player extends Actor {
+public class GamePlayer extends Actor {
     public final Body body;
     private final float DASH_CD = 0.4f;
     private final ConeLight light;
@@ -29,12 +29,12 @@ public class Player extends Actor {
     public KeyboardController controller;
     private boolean flipped = false;
     private float lastDash = 0;
-    private final TutorialScreen screen;
+    private final GameScreen screen;
     Sprite sprite;
     TextureAtlas textureAtlas;
     private float et = 0;
 
-    public Player(TextureAtlas atlas, TutorialScreen screen) {
+    public GamePlayer(TextureAtlas atlas, GameScreen screen) {
         super();
         textureAtlas = atlas;
         cur = idle = new Animation<TextureAtlas.AtlasRegion>(0.1f, atlas.findRegions("knight_m_idle"), Animation.PlayMode.LOOP);
