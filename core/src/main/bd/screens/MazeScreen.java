@@ -1,5 +1,6 @@
 package main.bd.screens;
 
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -55,7 +56,7 @@ public class MazeScreen implements Screen, InputProcessor {
     public ArrayList<String> to_add = new ArrayList<String>();
 
     public MazeScreen(BuzzDungeon game, String current) {
-        this(game, current, true);
+        this(game, current, false);
     }
 
     public MazeScreen(BuzzDungeon game, String current, boolean dontAddMessage) {
@@ -82,6 +83,7 @@ public class MazeScreen implements Screen, InputProcessor {
         rayHandler.resizeFBO(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
         rayHandler.setBlur(true);
         rayHandler.setAmbientLight(new Color(0f, 0f, 0f, 1f));
+        new PointLight(rayHandler, 10, Color.GREEN, 2, 15.5f, 16.5f);
         RayHandler.useDiffuseLight(true);
 
         tiledMap = new TmxMapLoader().load("maps/maze.tmx");
@@ -128,9 +130,11 @@ public class MazeScreen implements Screen, InputProcessor {
 
 
     public void died() {
-        messages.add(BuzzDungeon.name + " was injured by a spike that was inside the maze, such marvelous invention it is. Still functioning after all those years.");
-        messages.add("However with an unknown power at play, " + BuzzDungeon.name + " was rescued.");
-        messages.add("He was sent right back to the start of the maze.");
+        messages.add("");
+        messages.add(BuzzDungeon.name + " was injured by a spike, he watched in horror as the maze rearranged itself");
+        StringBuilder f = new StringBuilder();
+        for (String s : messages) f.append(s).append('\n');
+        game.setScreen(new TransitionScreen(this, new MazeScreen(game, f.toString(), true), game).setDuration(1));
     }
 
     public void update(float delta) {

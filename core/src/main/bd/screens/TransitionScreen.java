@@ -66,6 +66,7 @@ public class TransitionScreen implements Screen {
             fadeDirection = false;
         } else if (alpha <= 0 && !fadeDirection) {
             game.setScreen(nextScreen);
+            currentScreen.dispose();
         }
         alpha += fadeDirection ? speed * delta : -speed * delta;
     }
