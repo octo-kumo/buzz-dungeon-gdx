@@ -16,17 +16,16 @@ import main.bd.res.Fonts;
 public class InputScreen implements Screen {
     final BuzzDungeon game;
     private final Label l;
-    private String current;
+    private final String current;
     private final Stage stage;
 
     Texture bg;
 
     float elapsed = 0;
 
-
     public InputScreen(BuzzDungeon game, String current) {
         this.game = game;
-        current = current + "\nHe arrives in the world of \"" + BuzzGen.generate() + "\"\n";
+        current = current + "\nHe arrives in the world of \"" + BuzzGen.generate() + "\"";
         this.current = current;
         stage = new Stage();
         bg = new Texture(Gdx.files.internal("bg.jpeg"));
@@ -65,7 +64,7 @@ public class InputScreen implements Screen {
         }
 
         if (Gdx.input.isTouched() && game.getScreen() == this)
-            game.setScreen(new TransitionScreen(this, new TutorialScreen(game), game).setDuration(1));
+            game.setScreen(new TransitionScreen(this, new MazeScreen(game, current), game).setDuration(1));
     }
 
     @Override

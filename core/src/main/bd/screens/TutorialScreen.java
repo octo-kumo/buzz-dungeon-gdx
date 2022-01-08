@@ -28,8 +28,6 @@ import main.bd.res.MapBodyBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class TutorialScreen implements Screen, InputProcessor {
     final BuzzDungeon game;
@@ -70,6 +68,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         world.setContactListener(new WorldController(this));
         rainMusic = Gdx.audio.newMusic(Gdx.files.internal("music/dungeon.mp3"));
         rainMusic.setLooping(true);
+        rainMusic.setVolume(0.5f);
 
         rayHandler = new RayHandler(world);
         rayHandler.resizeFBO(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
@@ -94,7 +93,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         stage.addActor(player);
         stage.addActor(ball = new Ball(3, 3, 0.8f, world));
 
-        l = new Label(messages.stream().collect(Collectors.joining("\n")), new Label.LabelStyle(Fonts.font, Color.WHITE));
+        StringBuilder f = new StringBuilder();
+        for (String s : messages) f.append(s).append('\n');
+        l = new Label(f.toString(), new Label.LabelStyle(Fonts.font, Color.WHITE));
         l.setFontScale(1.5f);
         l.setPosition(100, 60);
         l.setAlignment(Align.bottomLeft);
@@ -113,14 +114,14 @@ public class TutorialScreen implements Screen, InputProcessor {
     float et = 0;
 
     String[] msgs = {
-            "Jack arrives in a everchanging dungeon made up of buzzwords, he is a knight who loves adventures.",
+            BuzzDungeon.name + " arrives in a everchanging dungeon made up of buzzwords, he is a knight who loves adventures.",
             "He will escape this place, to continue playing the new game that he just bought for $100",
             "... and to see his girlfriend again (the princess)",
             "",
             "but how, the dungeon has changed form for over 10 times already",
             "each time he enters it, it looks different",
             "",
-            "No matter, Jack will try again..."
+            "No matter, " + BuzzDungeon.name + " will try again..."
     };
     int i = 0;
 
@@ -153,7 +154,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         stage.draw();
         tiledMapRenderer.render(new int[]{3});
         rayHandler.updateAndRender();
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         tiledMapRenderer.render(new int[]{4});
         ui.draw();
     }
@@ -234,35 +235,29 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void openDoor() {
-        door.getFixtureList().forEach(new Consumer<Fixture>() {
-            @Override
-            public void accept(Fixture fixture) {
-                Filter data = fixture.getFilterData();
-                data.groupIndex = -1;
-                ((TiledMapTileLayer) tiledMap.getLayers().get("collisions")).getCell(4, 9)
-                        .setTile(tiledMap.getTileSets().getTile(data.groupIndex == 0 ? 930 : 929));
-            }
-        });
+        for (Fixture fixture : door.getFixtureList()) {
+            Filter data = fixture.getFilterData();
+            data.groupIndex = -1;
+            ((TiledMapTileLayer) tiledMap.getLayers().get("collisions")).getCell(4, 9)
+                    .setTile(tiledMap.getTileSets().getTile(data.groupIndex == 0 ? 930 : 929));
+        }
     }
 
     public void closeDoor() {
-        door.getFixtureList().forEach(new Consumer<Fixture>() {
-            @Override
-            public void accept(Fixture fixture) {
-                Filter data = fixture.getFilterData();
-                data.groupIndex = 0;
-                ((TiledMapTileLayer) tiledMap.getLayers().get("collisions")).getCell(4, 9)
-                        .setTile(tiledMap.getTileSets().getTile(data.groupIndex == 0 ? 930 : 929));
-            }
-        });
+        for (Fixture fixture : door.getFixtureList()) {
+            Filter data = fixture.getFilterData();
+            data.groupIndex = 0;
+            ((TiledMapTileLayer) tiledMap.getLayers().get("collisions")).getCell(4, 9)
+                    .setTile(tiledMap.getTileSets().getTile(data.groupIndex == 0 ? 930 : 929));
+        }
     }
 
     public void nextLevel() {
         if (game.getScreen() == this) {
             game.setScreen(new TransitionScreen(this, new InputScreen(game,
-                    "Below is a long story of Jack, the knight.\n" +
+                    "Below is a long story of " + BuzzDungeon.name + ", the knight.\n" +
                             "\n" +
-                            "Jack arrives in a everchanging dungeon, made up of buzzwords, he is a knight who loves adventures. He is trying to escape this dungeon, but it morphs around him, using popular buzzwords as the seed.\n" +
+                            BuzzDungeon.name + " arrives in a everchanging dungeon, made up of buzzwords, he is a knight who loves adventures. He is trying to escape this dungeon, but it morphs around him, using popular buzzwords as the seed.\n" +
                             "\n" +
                             "He arrives in the world of " + BuzzGen.generate() + "\n"), game).setDuration(0.5f));
         }

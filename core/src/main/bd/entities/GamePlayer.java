@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import main.bd.controllers.KeyboardController;
-import main.bd.screens.GameScreen;
+import main.bd.screens.MazeScreen;
 
 public class GamePlayer extends Actor {
     public final Body body;
@@ -29,12 +29,12 @@ public class GamePlayer extends Actor {
     public KeyboardController controller;
     private boolean flipped = false;
     private float lastDash = 0;
-    private final GameScreen screen;
+    private final MazeScreen screen;
     Sprite sprite;
     TextureAtlas textureAtlas;
     private float et = 0;
 
-    public GamePlayer(TextureAtlas atlas, GameScreen screen) {
+    public GamePlayer(TextureAtlas atlas, MazeScreen screen) {
         super();
         textureAtlas = atlas;
         cur = idle = new Animation<TextureAtlas.AtlasRegion>(0.1f, atlas.findRegions("knight_m_idle"), Animation.PlayMode.LOOP);
@@ -47,7 +47,7 @@ public class GamePlayer extends Actor {
         bd.type = BodyDef.BodyType.DynamicBody;
         bd.allowSleep = false;
         bd.fixedRotation = true;
-        bd.position.set(4, 4);
+        bd.position.set(.5f, .5f);
         bd.linearDamping = 5f;
         PolygonShape polygon = new PolygonShape();
         polygon.setAsBox(0.3f, 0.3f,

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "core/assets/tilesets/door.xml",
+    "activeFile": "core/assets/maps/maze.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -16,12 +16,20 @@
                 "y": 49.63170049835908
             }
         },
+        "core/assets/maps/maze.tmx": {
+            "scale": 3,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 135.66666666666663,
+                "y": 187.16666666666666
+            }
+        },
         "core/assets/maps/tutorial.tmx": {
             "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 114.25,
-                "y": 79.875
+                "x": 136,
+                "y": 119.875
             }
         },
         "core/assets/sprites/tileset.json": {
@@ -29,7 +37,7 @@
         },
         "core/assets/tilesets/door.xml": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 11
         },
         "core/assets/tilesets/dungeon.xml": {
             "dynamicWrapping": true,
@@ -74,16 +82,18 @@
     "openFiles": [
         "core/assets/tilesets/dungeon.xml",
         "core/assets/maps/tutorial.tmx",
-        "core/assets/tilesets/door.xml"
+        "core/assets/tilesets/door.xml",
+        "core/assets/maps/maze.tmx"
     ],
     "project": "maps.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "core/assets/tilesets/maze.tmx",
-        "core/assets/maps/map.tmx",
         "core/assets/tilesets/dungeon.xml",
         "core/assets/maps/tutorial.tmx",
         "core/assets/tilesets/door.xml",
+        "core/assets/maps/maze.tmx",
+        "core/assets/tilesets/maze.tmx",
+        "core/assets/maps/map.tmx",
         "core/assets/tilesets/inputs.xml",
         "core/assets/tilesets/tileset.xml",
         "core/assets/tilesets/tileset.json",

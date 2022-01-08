@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,35 +23,44 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import main.bd.BuzzDungeon;
+import main.bd.controllers.MazeController;
 import main.bd.entities.GamePlayer;
 import main.bd.res.Fonts;
+import main.bd.res.MazeGenerator;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
-public class GameScreen implements Screen, InputProcessor {
+public class MazeScreen implements Screen, InputProcessor {
 
     final BuzzDungeon game;
+    public TextureAtlas atlas;
     private final OrthogonalTiledMapRenderer tiledMapRenderer;
     private final Box2DDebugRenderer debugRenderer;
     private final Stage stage;
     private final Stage ui;
-    private final InputMultiplexer input;
     public final RayHandler rayHandler;
     public final GamePlayer player;
-    private final TiledMap tiledMap;
+    public final TiledMap tiledMap;
     private final Label l;
 
     public World world;
-    Music rainMusic;
+    public Music rainMusic;
     public OrthographicCamera camera;
     public Vector2 target = new Vector2();
 
-    public ArrayList<String> messages = new ArrayList<String>();
+    public Body spikes;
+    public Body ending;
 
-    public GameScreen(BuzzDungeon game) {
+    public ArrayList<String> messages = new ArrayList<String>();
+    public ArrayList<String> to_add = new ArrayList<String>();
+
+    public MazeScreen(BuzzDungeon game, String current) {
+        this(game, current, true);
+    }
+
+    public MazeScreen(BuzzDungeon game, String current, boolean dontAddMessage) {
         this.game = game;
-        input = new InputMultiplexer();
+        InputMultiplexer input = new InputMultiplexer();
         stage = new Stage();
         ui = new Stage();
         world = new World(new Vector2(0, 0), true);
@@ -57,30 +68,37 @@ public class GameScreen implements Screen, InputProcessor {
         camera.zoom = 1 / 64f;
         stage.getViewport().setCamera(camera);
 
-//        world.setContactListener(new WorldController(this));
+        world.setContactListener(new MazeController(this));
         rainMusic = Gdx.audio.newMusic(Gdx.files.internal("music/dungeon.mp3"));
         rainMusic.setLooping(true);
+        rainMusic.setVolume(.5f);
+
+        BodyDef st = new BodyDef();
+        st.type = BodyDef.BodyType.StaticBody;
+        spikes = world.createBody(st);
+        ending = world.createBody(st);
 
         rayHandler = new RayHandler(world);
         rayHandler.resizeFBO(Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
         rayHandler.setBlur(true);
+        rayHandler.setAmbientLight(new Color(0f, 0f, 0f, 1f));
         RayHandler.useDiffuseLight(true);
-        rayHandler.setAmbientLight(new Color(0.4f, 0.4f, 0.4f, 0.1f));
 
         tiledMap = new TmxMapLoader().load("maps/maze.tmx");
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("sprites/dungeon.atlas"));
-
-//        HashMap<String, Body> bodies = MapBodyBuilder.generateMaze(tiledMap, 16, world);
+        atlas = new TextureAtlas(Gdx.files.internal("sprites/dungeon.atlas"));
+        new MazeGenerator(16, 16, this);
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f);
         debugRenderer = new Box2DDebugRenderer();
         Gdx.input.setInputProcessor(input);
 
-        player = new GamePlayer(textureAtlas, this);
+        player = new GamePlayer(atlas, this);
         stage.addActor(player);
         StringBuilder f = new StringBuilder();
         for (String s : messages) f.append(s).append('\n');
-        l = new Label(f.toString(), new Label.LabelStyle(Fonts.font, Color.WHITE));
+        Label.LabelStyle style = new Label.LabelStyle(Fonts.font, Color.WHITE);
+        style.font.getData().markupEnabled = true;
+        l = new Label(f.toString(), style);
         l.setFontScale(1.5f);
         l.setPosition(100, 60);
         l.setAlignment(Align.bottomLeft);
@@ -88,24 +106,32 @@ public class GameScreen implements Screen, InputProcessor {
 
         input.addProcessor(this);
         input.addProcessor(player.controller);
+        to_add.add(current);
+        if (!dontAddMessage) {
+            to_add.add("\nThere he finds a maze, a dark, and scary maze, he need to avoid certain spikes as well");
+            to_add.add("What will he find?");
+            to_add.add("");
+            to_add.add("According to the legends, that was told by " + BuzzDungeon.name + "'s ancestors, if you can't find a way, look towards the [#0000ff]Northern Star");
+            to_add.add("[WHITE]" + BuzzDungeon.name + " is of cause, very sceptical of such claims");
+            to_add.add("He believes it to be the mysterious [RED]Eastern powers[WHITE], where the sun shines bright");
+            to_add.add("Where could it be?");
+        }
     }
 
     @Override
     public void show() {
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("http://www.example.com");
-
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", "John"));
-        params.add(new BasicNameValuePair("password", "pass"));
-        httpPost.setEntity(new UrlEncodedFormEntity(params));
-
-        CloseableHttpResponse response = client.execute(httpPost);
-        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
-        client.close();
+        rainMusic.play();
     }
 
     float et = 0;
+    int i = 0;
+
+
+    public void died() {
+        messages.add(BuzzDungeon.name + " was injured by a spike that was inside the maze, such marvelous invention it is. Still functioning after all those years.");
+        messages.add("However with an unknown power at play, " + BuzzDungeon.name + " was rescued.");
+        messages.add("He was sent right back to the start of the maze.");
+    }
 
     public void update(float delta) {
         et += delta;
@@ -114,9 +140,11 @@ public class GameScreen implements Screen, InputProcessor {
         Vector3 unp = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         target.set(unp.x, unp.y);
 
-        if (messages.size() <= i && et > (i + 1) && i < msgs.length) {
-            messages.add(msgs[i]);
-            l.setText(messages.stream().collect(Collectors.joining("\n")));
+        if (messages.size() <= i && et > (i + 1) && i < to_add.size()) {
+            messages.add(to_add.get(i));
+            StringBuilder f = new StringBuilder();
+            for (String s : messages) f.append(s).append('\n');
+            l.setText(f.toString());
             i++;
         }
     }
@@ -128,25 +156,25 @@ public class GameScreen implements Screen, InputProcessor {
         camera.position.set(player.body.getPosition(), 0);
         camera.update();
         tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render(new int[]{0, 1, 2});
+        tiledMapRenderer.render(new int[]{0, 1, 2, 3});
         rayHandler.setCombinedMatrix(camera);
         stage.act(delta);
         stage.draw();
-        tiledMapRenderer.render(new int[]{3});
-        rayHandler.updateAndRender();
-        debugRenderer.render(world, camera.combined);
         tiledMapRenderer.render(new int[]{4});
+        rayHandler.updateAndRender();
+//        debugRenderer.render(world, camera.combined);
         ui.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
     }
 
     @Override
     public void pause() {
-
+        rainMusic.pause();
     }
 
     @Override
@@ -161,7 +189,14 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+        rainMusic.dispose();
+        rayHandler.dispose();
+        tiledMapRenderer.dispose();
+        debugRenderer.dispose();
+        ui.dispose();
+        world.dispose();
+        stage.dispose();
+        atlas.dispose();
     }
 
     @Override
@@ -201,7 +236,8 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
+        camera.zoom = camera.zoom * (1 + amountY * 0.1f);
+        camera.zoom = Math.max(Math.min(camera.zoom, 1 / 50f), 1 / 120f);
         return false;
     }
-
 }
