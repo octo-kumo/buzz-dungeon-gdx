@@ -18,10 +18,10 @@
         },
         "core/assets/maps/maze.tmx": {
             "scale": 3,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 135.66666666666663,
-                "y": 187.16666666666666
+                "x": 120.33333333333334,
+                "y": 229.16666666666666
             }
         },
         "core/assets/maps/tutorial.tmx": {
