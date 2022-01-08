@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.5" tiledversion="1.7.2" name="inputs" tilewidth="16" tileheight="16" tilecount="816" columns="34">
+ <image source="../sprites/inputs.png" trans="ff00ff" width="544" height="384"/>
+</tileset>

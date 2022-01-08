@@ -1,0 +1,80 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "core/assets/maps/tutorial.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "core/assets/maps/tutorial.tmx": {
+            "scale": 8,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 99.5,
+                "y": 89.6875
+            }
+        },
+        "core/assets/sprites/tileset.json": {
+            "scaleInEditor": 2
+        },
+        "core/assets/tilesets/door.xml": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "core/assets/tilesets/dungeon.xml": {
+            "dynamicWrapping": true,
+            "scaleInDock": 4,
+            "scaleInEditor": 11
+        },
+        "core/assets/tilesets/inputs.xml": {
+            "dynamicWrapping": true,
+            "scaleInDock": 3,
+            "scaleInEditor": 2
+        },
+        "core/assets/tilesets/tileset.json": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "core/assets/tilesets/tileset.xml": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "tileset.tsx": {
+            "dynamicWrapping": true
+        }
+    },
+    "frame.defaultDuration": 200,
+    "last.exportedFilePath": "C:/Users/zy/Documents/GitHub/buzz-dungeon-gdx/core/assets/sprites",
+    "last.imagePath": "C:/Users/zy/Documents/GitHub/buzz-dungeon-gdx/core/assets/sprites",
+    "lastUsedTilesetExportFilter": "All Files (*)",
+    "map.height": 16,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 16,
+    "openFiles": [
+        "core/assets/tilesets/dungeon.xml",
+        "core/assets/maps/tutorial.tmx",
+        "core/assets/tilesets/door.xml"
+    ],
+    "project": "maps.tiled-project",
+    "recentFiles": [
+        "core/assets/tilesets/dungeon.xml",
+        "core/assets/tilesets/door.xml",
+        "core/assets/maps/tutorial.tmx",
+        "core/assets/tilesets/inputs.xml",
+        "core/assets/tilesets/tileset.xml",
+        "core/assets/tilesets/tileset.json",
+        "core/assets/sprites/tileset.json"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1,
+    "tileset.useTransparentColor": true
+}
