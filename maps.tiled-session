@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "core/assets/maps/maze.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -20,16 +20,16 @@
             "scale": 3,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 120.33333333333334,
-                "y": 229.16666666666666
+                "x": 120,
+                "y": -58.166666666666686
             }
         },
         "core/assets/maps/tutorial.tmx": {
             "scale": 4,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 136,
-                "y": 119.875
+                "x": 135.75,
+                "y": 119.625
             }
         },
         "core/assets/sprites/tileset.json": {
@@ -80,10 +80,6 @@
     "map.tileWidth": 16,
     "map.width": 16,
     "openFiles": [
-        "core/assets/tilesets/dungeon.xml",
-        "core/assets/maps/tutorial.tmx",
-        "core/assets/tilesets/door.xml",
-        "core/assets/maps/maze.tmx"
     ],
     "project": "maps.tiled-project",
     "property.type": "bool",
